@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include "mpi.h"
 #include <math.h>
-#define TAMANHO 500000
+#define TAMANHO 5000
 
 int primo(int n) {
     int i;
@@ -42,6 +42,7 @@ int main(int argc, char *argv[]) {
     if (meu_ranque == 0) {
         for (dest = 1, inicio = 3; dest < num_procs && inicio < n; dest++, inicio += TAMANHO) {
             MPI_Rsend(&inicio, 1, MPI_INT, dest, tag, MPI_COMM_WORLD);
+            MPI_Barrier(MPI_COMM_WORLD);
         }
 
         while (stop < (num_procs - 1)) {
@@ -54,7 +55,7 @@ int main(int argc, char *argv[]) {
                 stop++;
             }
 
-            MPI_Rsend(&cont, 1, MPI_INT, dest, tag, MPI_COMM_WORLD);
+            MPI_Rsend(&inicio, 1, MPI_INT, dest, tag, MPI_COMM_WORLD);
             inicio += TAMANHO;
         }
     } else {
@@ -67,7 +68,7 @@ int main(int argc, char *argv[]) {
                         cont++;
 
                 MPI_Rsend(&cont, 1, MPI_INT, raiz, tag, MPI_COMM_WORLD);
-                MPI_Wait(&request, MPI_STATUS_IGNORE);
+                MPI_Barrier(MPI_COMM_WORLD);
             }
         }
     }

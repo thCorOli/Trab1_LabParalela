@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include "mpi.h"
 #include <math.h>
-#define TAMANHO 500000
+#define TAMANHO 5000
 
 int primo(int n) {
     int i;
