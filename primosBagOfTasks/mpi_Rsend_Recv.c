@@ -42,9 +42,10 @@ int main(int argc, char *argv[]) {
     if (meu_ranque == 0) {
         for (dest = 1, inicio = 3; dest < num_procs && inicio < n; dest++, inicio += TAMANHO) {
             MPI_Rsend(&inicio, 1, MPI_INT, dest, tag, MPI_COMM_WORLD);
-            MPI_Barrier(MPI_COMM_WORLD);
+            
         }
 
+        MPI_Barrier(MPI_COMM_WORLD);
         while (stop < (num_procs - 1)) {
             MPI_Recv(&cont, 1, MPI_INT, MPI_ANY_SOURCE, MPI_ANY_TAG, MPI_COMM_WORLD, &estado);
             total += cont;
