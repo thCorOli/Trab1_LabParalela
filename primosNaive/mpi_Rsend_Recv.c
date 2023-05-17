@@ -40,10 +40,10 @@ int main(int argc, char *argv[]) {
    if (num_procs > 1) {
         if (meu_ranque != 0) {
             MPI_Rsend(&cont, 1, MPI_INT, 0, 0, MPI_COMM_WORLD);
-            MPI_Barrier(MPI_COMM_WORLD);
         } else {
             total = cont;
             for (int source = 1; source < num_procs; source++){
+                MPI_Barrier(MPI_COMM_WORLD);
                 MPI_Recv(&cont, 1, MPI_INT, source, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
                 total += cont;
             }
